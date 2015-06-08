@@ -1,3 +1,5 @@
+Forked to add boolean score support (displayBooleanScore and booleanScoreCharacters in Options).
+
 jQuery Bracket library
 ======================
 

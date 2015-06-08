@@ -95,6 +95,9 @@ interface Options {
   save: (data: any, userData: any) => void;
   userData: any;
   decorator: Decorator;
+  displayBooleanScore: boolean; // display "boolean" score instead of numbers
+                                // (0 - false, any other number - true)
+  booleanScoreCharacters: any;  // default ['-', '+']
   skipConsolationRound: boolean;
   skipSecondaryFinal: boolean;
   dir: string;
@@ -739,6 +742,11 @@ interface Options {
       throw Error('Invalid decorator input')
     else if (!opts.decorator)
       opts.decorator = { edit: defaultEdit, render: defaultRender }
+      
+    if (opts.displayBooleanScore) {
+        if (!opts.booleanScoreCharacters)
+          opts.booleanScoreCharacters = ['-', '+'];
+    }
 
     var data
     if (!opts.init)
@@ -785,7 +793,10 @@ interface Options {
           if (!isNumber(team.score)) {
             score = '--'
           } else {
-            score = team.score
+            if (opts.displayBooleanScore)
+              score = team.score == 0 ? opts.booleanScoreCharacters[0] : opts.booleanScoreCharacters[1];
+            else          
+                score = team.score
           }
         }
         sEl.append(score)
